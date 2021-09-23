@@ -55,7 +55,7 @@ class(a)
 Gunakan tanda kurung siku untuk mengekstrak singkatan negara dan menyimpannya pada
 objek “b”. Tentukan apakah variabel “a” dan “b” bernilai sama?
 ```{r}
-b=a[1:51]
+b=murders[[2]]
 a
 b
 ```

@@ -1,0 +1,153 @@
+---
+title: "Kuis_DS-B"
+author: "Afifrendra Rifqi Nugraha_123190012"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Intro
+##Baca Petunjuk Terlebih Dahulu!
+
+1. Kerjakan soal-soal yang ada! Jangan lupa tulis NAMA dan NIM pada author!
+2. Kuis terdiri dari 2 bagian yaitu bagian pertama dan bagian kedua
+3. Jawablah dengan mengisi chunk dibawah soal!
+4. Durasi pengerjaan sesuai selama 12 jam, dikumpulkan maksimal 
+Jum'at, 29 Oktober 2021 pukul 21.00 WIB
+5. No toleransi pengumpulan telat. Ingat, telat kemungkinan terburuk ga ada nilai kuis!
+6. Misal soal rancu bisa menghubungi asisten terkait
+7. Export hasil pekerjaan dalam format PDF/Word & sesuaikan nama file sesuai NIM masing-masing.  
+
+##BAGIAN PERTAMA
+
+1. Load library apa saja yang kira-kira digunakan! Lalu gunakan data 'us_contagious_diseases'! **point 1**
+```{r}
+library(dslabs)
+library(tidyverse)
+library(dplyr)
+data("us_contagious_diseases")
+```
+
+2. Tampilkan semua nama kolom pada data frame yang ada! **point 5**
+```{r}
+names(us_contagious_diseases)
+```
+
+3. Tampilkan tipe data pada kolom penyakit! **point 5**
+```{r}
+class(us_contagious_diseases$disease)
+```
+
+4. Tampilkan 10 data penyakit rubella teratas diurutkan berdasarkan jumlah kasusnya dan terjadi pada antara tahun 2000 dan 2005! **point 11**
+```{r}
+us_contagious_diseases %>% filter(disease=="Rubella", 
+                                  year>=2000, year<=2005) %>% 
+  arrange(desc(count)) %>% 
+  top_n(10,count)
+```
+
+5. Klasifikasikan data tersebut berdasarkan jumlah kasusnya dengan kondisi :
+-jumlah kasus kurang dari 500 dikategorikan sebagai "Biasa"
+-jumlah kasus lebih dari 2000 dikategorikan sebagai "Azab
+-jumlah kasus antara kedua kondisi diatas dikategorikan sebagai "Cobaan" 
+
+NB : jika dirasa jumlah data hasilnya terlalu banyak boleh menggunakan fungsi top_n() atau head()**point 10**
+
+```{r}
+us_contagious_diseases %>% 
+  mutate(category = cut(count, c(0,500,2000,Inf), 
+                        labels = c("Biasa","Cobaan", "Azab"))) %>% 
+  filter(category=="Biasa") %>% head()
+```
+
+```{r}
+us_contagious_diseases %>% 
+  mutate(category = cut(count, c(0,500,2000,Inf), 
+                        labels = c("Biasa","Cobaan", "Azab"))) %>% 
+  filter(category=="Cobaan") %>% head()
+```
+
+```{r}
+us_contagious_diseases %>% 
+  mutate(category = cut(count, c(0,500,2000,Inf), 
+                        labels = c("Biasa","Cobaan", "Azab"))) %>% 
+  filter(category=="Azab") %>% head()
+```
+
+
+6. Tambahkan variabel baru berisi data 'us_contagious_diseases' dengan tambahan kolom baru dengan nama "category" yang isinya merupakan implementasi nomor 5 dan kolom "rate" yang isinya merupakan hasil bagi jumlah kasus dengan populasi dikalikan 100000! **point 10**
+```{r}
+us_contagious_diseases<-us_contagious_diseases %>% 
+  mutate(category = cut(count, c(0,500,2000,Inf), 
+          labels = c("Biasa","Cobaan", "Azab")), 
+          rate = count/(population*100000))
+us_contagious_diseases%>%head()
+```
+
+7. Tampilkan kesimpulan pada data nomor 6 dikelompokkan berdasarkan negara bagian yang isinya  nama negara bagian dan rata-rata rate per negara bagian! **point 8**
+```{r}
+us_contagious_diseases%>%group_by(state)%>%
+  summarise(n=mean(rate))
+```
+
+8. Lakukan visualisasi pada hasil nomor 7!(Bebas menggunakan plot, boxplot, hist, ggplot2 dsb) **point 5**
+```{r}
+plot(us_contagious_diseases%>%group_by(state)%>%
+       summarise(n=mean(rate)),las=2, 
+     xlab = "Negara", ylab = "Rata-rata")
+```
+
+##BAGIAN KEDUA
+
+1. Load library tambahan untuk import file! **point 2**
+```{r}
+library(readr)
+worldwide_covid_data <- read_csv("worldwide_covid_data.csv")
+```
+
+2. Tampilkan informasi rinci tentang struktur dataset yang digunakan! **point 5**
+```{r}
+str(worldwide_covid_data)
+```
+
+3. Tampilkan 10 nama Negara dengan jumlah kasus Covid-19 yang terkonfirmasi dari paling banyak ke paling sedikit! **point 8**
+```{r}
+worldwide_covid_data%>% 
+  select(Country, Total_Cases, Total_Deaths, Total_Recovered,Population)%>%
+  top_n(10, Total_Cases) %>% arrange(desc(Total_Cases))
+```
+
+4. Buat kolom baru bernama Rate_Deaths yang berisi rasio korban Covid-19 yang meninggal dengan yang terkonfirmasi! **point 11**
+```{r}
+worldwide_covid_data <- worldwide_covid_data%>%mutate(
+  Rate_Deaths = Total_Deaths/Total_Cases)
+worldwide_covid_data %>% 
+  select(Country, Total_Cases, Total_Deaths, Total_Recovered, Rate_Deaths)
+```
+
+5. Negara mana yang memiliki rasio kematian Covid-19 tertinggi dan terendah? Tampilkan nama negaranya. **point 11**
+```{r}
+worldwide_covid_data%>% 
+  select(Country, Rate_Deaths)%>%
+  top_n(1, Rate_Deaths)
+```
+
+
+```{r}
+worldwide_covid_data%>% 
+  select(Country, Rate_Deaths)%>%
+  top_n(-1,Rate_Deaths)
+```
+
+6. Tampilkan grafik plot antara penderita yang sembuh dengan penderita yang terkonfirmasi Covid-19! **point 8**
+```{r}
+plot(log(worldwide_covid_data$Total_Recovered,10), 
+     log(worldwide_covid_data$Total_Cases,10), xlab="Sembuh(log10)", 
+     ylab="Kasus(log10)")
+```
+

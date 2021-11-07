@@ -1,0 +1,5 @@
+"0","murders$population %>% log %>% mean %>% exp"
+"1","[1]"
+"1"," 3675209"
+"1","
+"

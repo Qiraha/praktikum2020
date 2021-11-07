@@ -1,0 +1,3 @@
+"0","worldwide_covid_data%>% "
+"0","  select(Country, Rate_Deaths)%>%"
+"0","  top_n(1, Rate_Deaths)"

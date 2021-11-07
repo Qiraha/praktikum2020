@@ -1,0 +1,4 @@
+"0","worldwide_covid_data <- worldwide_covid_data%>%mutate("
+"0","  Rate_Deaths = Total_Deaths/Total_Cases)"
+"0","worldwide_covid_data %>% "
+"0","  select(Country, Total_Cases, Total_Deaths, Total_Recovered, Rate_Deaths)"

@@ -1,0 +1,4 @@
+"0","us_contagious_diseases %>% filter(disease==""Rubella"", "
+"0","                                  year>=2000, year<=2005) %>% "
+"0","  arrange(desc(count)) %>% "
+"0","  top_n(10,count)"

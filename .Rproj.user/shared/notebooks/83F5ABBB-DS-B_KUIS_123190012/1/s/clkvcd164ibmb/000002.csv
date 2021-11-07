@@ -1,0 +1,3 @@
+"0","plot(log(worldwide_covid_data$Total_Recovered,10), "
+"0","     log(worldwide_covid_data$Total_Cases,10), xlab=""Sembuh(log10)"", "
+"0","     ylab=""Kasus(log10)"")"

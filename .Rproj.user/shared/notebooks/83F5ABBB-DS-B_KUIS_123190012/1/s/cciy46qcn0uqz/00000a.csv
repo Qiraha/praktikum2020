@@ -1,0 +1,4 @@
+"0","library(readr)"
+"0","worldwide_covid_data <- read_csv(""kuis1/worldwide_covid_data.csv"")"
+"2","Error: 'kuis1/worldwide_covid_data.csv' does not exist in current working directory ('C:/Users/hp/Documents/GitHub/praktikum2020/kuis1').
+"

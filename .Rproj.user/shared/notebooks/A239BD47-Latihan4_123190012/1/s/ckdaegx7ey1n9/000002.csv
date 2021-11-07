@@ -1,0 +1,8 @@
+"0","as_tibble(murders) %>% group_by(region) %>% class()"
+"1","[1]"
+"1"," ""grouped_df"""
+"1"," ""tbl_df""    "
+"1"," ""tbl""       "
+"1"," ""data.frame"""
+"1","
+"

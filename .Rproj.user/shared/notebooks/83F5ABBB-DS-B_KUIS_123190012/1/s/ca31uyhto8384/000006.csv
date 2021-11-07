@@ -1,0 +1,4 @@
+"0","us_contagious_diseases %>% "
+"0","  mutate(category = cut(count, c(0,500,2000,Inf), "
+"0","                        labels = c(""Biasa"",""Cobaan"", ""Azab""))) %>% "
+"0","  filter(category==""Biasa"") %>% head()"
